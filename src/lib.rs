@@ -8,7 +8,7 @@ pub struct KeyEvent {}
 
 #[cfg(test)]
 mod tests {
-    use crate::pipeline::{Handler, HandlerResult};
+    use crate::pipeline::{Handler, HandlerAction};
     use crate::*;
 
     struct Dummy;
@@ -17,11 +17,11 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let handler = Dummy {};
+        let mut handler = Dummy {};
         let event = KeyEvent {};
         assert_eq!(
             handler.handle(event.clone()),
-            HandlerResult::Continue(event)
+            HandlerAction::Continue(event)
         );
     }
 }

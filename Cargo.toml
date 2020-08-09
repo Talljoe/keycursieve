@@ -11,3 +11,4 @@ derive-new = "0.5"
 
 [dev-dependencies]
 rusty-hook = "0.11.2"
+speculate = "0.1"
