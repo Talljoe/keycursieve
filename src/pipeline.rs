@@ -49,16 +49,15 @@ impl<'h, Event> Pipeline<Event> for HandlerPipeline<'h, Event> {
 mod tests {
     use crate::pipeline::*;
 
-    struct AddOne;
-
     #[derive(PartialEq, Debug, Clone)]
     struct Event(i32);
 
+    struct AddOne;
+
     impl Handler<Event> for AddOne {
         fn handle(&self, event: Event) -> HandlerResult<Event> {
-            match event {
-                Event(x) => HandlerResult::Continue(Event(x + 1)),
-            }
+            let Event(x) = event;
+            HandlerResult::Continue(Event(x + 1))
         }
     }
 
