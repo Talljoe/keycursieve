@@ -15,3 +15,15 @@ In QMK _mod-tap_ is limited to modifiers and standard key codes. If you want to 
 How this might be implemented in _Keycursieve_ is to have a handler for the key press. When pressed down, the handler sets a timeout--the delay before the mod goes active--and `yields` back to the main loop. If the timeout occurs, the handler will be invoked and then returns a data structure to set the modifier and `resume` processing of the pipeline. On key-up the handler will check to see if the timeout occurred, and if so unset the modifier. If not, then the handler will ask the system to `restart` the pipeline with a new key code.
 
 The `yield`, `resume`, and `restart` semantics are the core concept here and represent the bulk of the experiment.
+
+## Use Case Examples
+
+### Dual-Function Key
+
+Dual-function keys perform multiple actions depending on whether the key is held or tapped. There are a few different ways this can manifest:
+
+1. The held key is emitted immediately regardless. If the key is tapped then the held key released and the tap is sent.
+1. The held key is emitted after a timeout (tap threshold) otherwise the tap is sent.
+1. The held key is only sent if another key is pressed while it is held, otherwise the tap is sent (no timeout).
+
+Each of these have pros and cons. For example, #1 works best for keys you want to use alongside a mouse (e.g. Ctrl-Click) as there is no delay. However extra keypresses are sent if only a tap is needed. #3 doesn't send any extraneous keypresses but won't be usable with a mouse.
